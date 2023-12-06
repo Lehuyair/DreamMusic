@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_graytoblue"
+    android:layout_height="800dp"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Fragment.Fragment_AddNewPlaylist">
+    <TextView
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="Give your Playlist a name"/>
+    <EditText
+        android:id="@+id/edtNewPlaylist"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="60dp"
+        android:textSize="22dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Playlist"/>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+           <androidx.appcompat.widget.AppCompatButton
+               android:layout_marginRight="25dp"
+               android:layout_width="100dp"
+               android:textColor="@color/black"
+               android:layout_height="wrap_content"
+               android:background="@drawable/bg_button_transparent"
+               android:id="@+id/btnCancleNewPlaylist"
+               android:text="Cancle"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:textColor="@color/black"
+            android:layout_width="100dp"
+            android:background="@drawable/bg_button_green"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCreateNewPlaylist"
+            android:text="Create"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

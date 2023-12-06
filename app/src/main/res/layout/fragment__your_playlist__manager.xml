@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bluetoblack"
+    tools:context=".Fragment.Fragment_Playlist_Screen">
+    <RelativeLayout
+        android:paddingTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:scaleType="fitXY"
+            android:alpha="0.3"
+            android:layout_marginTop="58dp"
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:src="@drawable/bg_blur3"/>
+        <ImageView
+            android:id="@+id/imgBack_YourPlaylist"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_back2"/>
+        <ImageView
+            android:id="@+id/imgAvatar_YourPlaylist"
+            android:layout_marginTop="20dp"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_yourplaylist"/>
+        <LinearLayout
+            android:id="@+id/lnControler"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="260dp">
+            <TextView
+                android:id="@+id/tvName_YourPlaylist"
+                android:layout_marginLeft="20dp"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Name of Albums"
+                android:textSize="22dp"
+                android:fontFamily="@font/helvetica_bold"/>
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/imgShuffle_YourPlaylist"
+                android:layout_marginLeft="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_shuffle_none"/>
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/imgPlay_YourPlaylist"
+                android:layout_marginLeft="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_play2"/>
+        </LinearLayout>
+
+
+
+        <ImageView
+            android:layout_alignTop="@+id/lnControler"
+            android:id="@+id/img_Logo"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_logo"/>
+        <TextView
+            android:textColor="@color/white"
+            android:layout_alignTop="@+id/lnControler"
+            android:id="@+id/tv_nameeee"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="55dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dream Music"
+            />
+        <ScrollView
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="330dp"
+            android:layout_width="match_parent"
+            android:layout_height="520dp"
+            >
+            <LinearLayout
+                android:id="@+id/ln_artist_Songs"
+                android:layout_alignTop="@+id/img_Logo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:text="Songs"
+                    android:textColor="@color/white"
+                    android:textSize="17dp"
+                    android:fontFamily="@font/helvetica_bold"/>
+                <LinearLayout
+                    android:id="@+id/ln_addNewSong"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+                    <ImageView
+                        android:layout_margin="5dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_plus" />
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="add To This Playlist"
+                        />
+                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="5dp"
+                    android:padding="10dp"
+                    android:id="@+id/rv__YourPlaylist"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </ScrollView>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_Main"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        >
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/ic_back2"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="70dp"
+            android:paddingVertical="8dp"
+            android:text="Update Your Avatar"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/time_new_roman"
+            android:paddingVertical="8dp"
+            android:text="Hi, John!"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:paddingHorizontal="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/imgUpdateUser"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/add_image"
+ />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginHorizontal="100dp"
+            android:layout_marginTop="255dp"
+            android:layout_weight="1"
+            android:background="@drawable/boder_button"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:textSize="18dp"
+            android:text="Update"
+            android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/tvSkip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="310dp"
+            android:gravity="center"
+            android:fontFamily="@font/time_new_roman"
+            android:paddingVertical="10dp"
+            android:text="Skip >>"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+
+    </RelativeLayout>
+</LinearLayout>

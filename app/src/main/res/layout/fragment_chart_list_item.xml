@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="290dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="8dp">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#10B4CC"
+        android:alpha="0.1"
+        />
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/tv_NameOfTop"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/helvetica_bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top's Name"
+        android:layout_marginBottom="10dp"/>
+    <ImageView
+        android:id="@+id/img_PlayChart"
+        android:layout_marginLeft="237dp"
+        android:layout_marginTop="15dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_play2"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="20dp"
+        android:paddingBottom="51dp"
+        android:id="@+id/rv_listChart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

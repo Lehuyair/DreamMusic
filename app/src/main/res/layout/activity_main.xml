@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+    android:id="@+id/Drawer_Layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:openDrawer="start">
+
+    <RelativeLayout
+        android:background="@drawable/bluetoblack"
+        android:id="@+id/lnActivity_main"
+        android:layout_width="wrap_content"
+        android:layout_height="600dp"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/Frame_Content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:paddingBottom="62dp"
+            android:orientation="vertical">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bluetoblack"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:ignore="NotSibling" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
+
+<androidx.cardview.widget.CardView
+    android:background="@android:color/transparent"
+    android:layout_marginHorizontal="5dp"
+    android:layout_alignParentBottom="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    >
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_mediaCompact_Controller"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/black"
+        android:layout_marginBottom="1.0dp">
+        <androidx.cardview.widget.CardView
+            android:layout_marginLeft="10dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="6dp"
+            app:cardCornerRadius="7dp">
+            <ImageView
+                android:scaleType="fitXY"
+                android:id="@+id/img_CompactController"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@color/color_Main1"/>
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tv_NameSong_CompactController"
+            android:layout_marginTop="8dp"
+            android:layout_width="225dp"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:text="Song's Name"
+            android:textSize="15dp"
+            android:layout_marginLeft="60dp"/>
+        <TextView
+            android:id="@+id/tv_NameArtist_CompactController"
+            android:layout_marginTop="27dp"
+            android:layout_width="225dp"
+            android:textColor="#A59999"
+            android:layout_height="wrap_content"
+            android:text="Artist's Name"
+            android:textSize="13dp"
+            android:layout_marginLeft="60dp"/>
+
+        <ImageView
+            android:id="@+id/imgLike_CompactController"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:src="@drawable/ic_heart_none"
+            android:layout_marginTop="14dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="90dp"/>
+        <ImageView
+            android:id="@+id/imgPlay_CompactController"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_play32"
+            android:backgroundTint="@color/white"
+            android:layout_marginTop="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="50dp"/>
+        <ImageView
+            android:id="@+id/imgNext_CompactController"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/next32"
+            android:layout_marginTop="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"/>
+        <SeekBar
+            android:id="@+id/seekbar_CompactController"
+            android:layout_marginHorizontal="-5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumb="@drawable/seekbar_thumb_custom"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="-2dp"
+            />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
+        </RelativeLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/black"
+            app:itemActiveIndicatorStyle="@color/white"
+            app:itemIconSize="22dp"
+            app:itemIconTint="@drawable/selected_item_background"
+            app:itemRippleColor="@null"
+            app:itemTextColor="@drawable/selected_item_background"
+            app:menu="@menu/navigation_bottom_menu" />
+    </RelativeLayout>
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

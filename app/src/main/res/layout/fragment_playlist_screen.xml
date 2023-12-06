@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_container_playlist"
+    android:paddingTop="20dp"
+    android:paddingBottom="30dp"
+    android:layout_width="match_parent"
+    android:background="@android:color/transparent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.Fragment_Playlist_Screen">
+    <ImageView
+        android:id="@+id/imgCoverImage"
+        android:layout_width="match_parent"
+        android:layout_height="274dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="58dp"
+        android:alpha="0.5"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_blur" />
+
+    <ImageView
+        android:id="@+id/imgBackPlaylist"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_back2"/>
+    <ImageView
+        android:id="@+id/imgAvatarPlaylist"
+        android:layout_marginTop="20dp"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_adele"/>
+    <LinearLayout
+        android:id="@+id/lnControler"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="252dp">
+        <TextView
+            android:id="@+id/tvNamePlaylist"
+            android:layout_marginLeft="20dp"
+            android:layout_width="240dp"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:text="Name of Albums"
+            android:textSize="18dp"
+            android:fontFamily="@font/helvetica_bold"/>
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_alignEnd="@+id/imgPlay_Playlist"
+            android:id="@+id/imgShuffle_Playlist"
+            android:layout_marginLeft="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_shuffle_none"/>
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/imgPlay_Playlist"
+            android:layout_marginLeft="25dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_play2"/>
+    </LinearLayout>
+
+
+
+    <ImageView
+        android:layout_alignTop="@+id/lnControler"
+        android:id="@+id/img_Logo"
+        android:layout_marginTop="51dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/img_logo"/>
+    <TextView
+        android:layout_alignTop="@+id/lnControler"
+        android:id="@+id/tv_nameeee"
+        android:layout_marginTop="53dp"
+        android:layout_marginLeft="55dp"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dream Music"
+   />
+    <TextView
+        android:layout_alignTop="@+id/img_Logo"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/white"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:text="Songs"
+        android:textSize="21dp"
+        android:fontFamily="@font/helvetica_bold"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_Playlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/img_Logo"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="98dp"
+        android:background="@android:color/transparent"
+        android:padding="10dp"
+     />
+</RelativeLayout>

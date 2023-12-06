@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_Main"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/img_logo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="35dp"
+            android:textStyle="bold"
+            android:text="Dream Music"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="30dp"
+        android:paddingTop="20dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sign In"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:textSize="45dp"
+                android:layout_marginBottom="30dp"/>
+
+        <EditText
+            android:id="@+id/edtIDLogin"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="15dp"
+            android:background="@drawable/bg_edt"
+            android:fontFamily="@font/time_new_roman"
+            android:hint="ID"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+        <EditText
+            android:textColor="@color/white"
+            android:layout_height="40dp"
+            android:paddingLeft="15dp"
+            android:background="@drawable/bg_edt"
+            android:id="@+id/edtPWLogin"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:hint="PassWord"
+            android:inputType="textPassword"
+            />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/chkRemember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:buttonTint="@color/blue"
+        android:fontFamily="@font/time_new_roman"
+        android:text="Remember?"
+        android:textColor="@color/white"
+        android:textSize="17dp"
+        android:textStyle="italic" />
+    <ProgressBar
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/progress_Login"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
+</LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/boder_button"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
+            android:text="Sign In"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tvForgot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Forgot your password?"
+            android:fontFamily="@font/time_new_roman"
+            android:textStyle="italic"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+        <LinearLayout
+            android:id="@+id/lnSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don't have an account?"
+                android:fontFamily="@font/time_new_roman"
+                android:textStyle="italic"
+                android:textColor="@color/white"
+                android:gravity="center" />
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign Up"
+                android:fontFamily="@font/time_new_roman"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnWithinAcount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Using App within Accounts >>"
+                android:fontFamily="@font/time_new_roman"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
