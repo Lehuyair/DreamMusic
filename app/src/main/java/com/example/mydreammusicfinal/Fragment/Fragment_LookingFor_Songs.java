@@ -4,6 +4,8 @@ package com.example.mydreammusicfinal.Fragment;
 
 import static android.app.PendingIntent.getActivity;
 
+import static com.example.mydreammusicfinal.AUD.AUD.createNewSong;
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -46,7 +48,6 @@ public class Fragment_LookingFor_Songs extends Fragment implements OnItemListene
     androidx.appcompat.widget.SearchView searchView;
     LinearLayoutManager linearLayoutManager;
     RecyclerView rvSongs;
-    DatabaseReference reference;
     String idUser, idPlaylist,namePlaylist;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,7 +116,7 @@ public class Fragment_LookingFor_Songs extends Fragment implements OnItemListene
     private void updateRecyclerViewSongs(ArrayList<Songs> list) {
         linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         adapterSongs = new Child_Playlist_ItemAdapter(getContext(),list);
-        adapterSongs.setIsAdd(true);
+        adapterSongs.setIsAddSongs(true);
         adapterSongs.setOnItemSongListener(Fragment_LookingFor_Songs.this);
         rvSongs.setLayoutManager(linearLayoutManager);
         rvSongs.setAdapter(adapterSongs);
@@ -142,8 +143,5 @@ public class Fragment_LookingFor_Songs extends Fragment implements OnItemListene
             }
         }
     }
-    public void createNewSong(String UserID,String IDPlaylist,String keySongs){
-        reference= FirebaseDatabase.getInstance().getReference("users/"+UserID+"/playlists/"+IDPlaylist+"/Songs/"+keySongs);
-        reference.setValue(true);
-    }
+
 }

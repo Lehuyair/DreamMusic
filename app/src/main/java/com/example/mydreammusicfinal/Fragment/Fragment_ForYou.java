@@ -162,10 +162,6 @@ public class Fragment_ForYou extends Fragment implements OnItemListener.IOnItemP
         rvChart.setAdapter(adapterChart);
     }
 
-
-
-
-
     @Override
     public void onPause() {
         super.onPause();

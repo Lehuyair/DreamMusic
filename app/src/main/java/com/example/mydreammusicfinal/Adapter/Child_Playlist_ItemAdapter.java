@@ -1,6 +1,7 @@
 package com.example.mydreammusicfinal.Adapter;
 
 import static com.example.mydreammusicfinal.Activity.MainActivity.imgLike;
+import static com.example.mydreammusicfinal.Constance.Constance.KEY_SEEKBAR_UPDATE;
 import static com.example.mydreammusicfinal.Fragment.Fragment_Me.DataPlaylistRecentlyProcess;
 import static com.example.mydreammusicfinal.Fragment.Fragment_Me.adapterRecently;
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.positionSongPlaying;
@@ -8,7 +9,11 @@ import static com.example.mydreammusicfinal.MyApplication.checkUser;
 import static com.example.mydreammusicfinal.MyApplication.clickStartService;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mydreammusicfinal.Activity.MainActivity;
 import com.example.mydreammusicfinal.DataProcessing.GlideModule;
 import com.example.mydreammusicfinal.DataProcessing.LikeSongProcessing;
 import com.example.mydreammusicfinal.Fragment.Fragment_Me;
@@ -37,12 +44,27 @@ public class Child_Playlist_ItemAdapter extends RecyclerView.Adapter<Child_Playl
     OnItemListener.IOnItemKeyArtistClickListenter listenter;
     OnItemListener.IOnItemSongsClickListerner listenerSong;
     Boolean isAdd = false;
+    Boolean isFavorite = false;
+    ProgressDialog progressDialog;
+    private BroadcastReceiver MessageReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+            if(message != null){
+                dismissProgressDialog();
+            }
+        }
+    };
+
     public void setListPlaylist(ArrayList<Songs> List){
         this.list = List;
         notifyDataSetChanged();
     }
-    public  void setIsAdd(Boolean isAdd){
+    public  void setIsAddSongs(Boolean isAdd){
         this.isAdd = isAdd;
+    }
+    public void setIsFavorite(Boolean IsFavorite){
+        this.isFavorite = IsFavorite;
     }
 
     public Child_Playlist_ItemAdapter(Context context, ArrayList<Songs> list) {
@@ -65,6 +87,7 @@ public class Child_Playlist_ItemAdapter extends RecyclerView.Adapter<Child_Playl
 
     @Override
     public void onBindViewHolder(@NonNull Child_Chart_ItemHolder holder, @SuppressLint("RecyclerView") int position) {
+        registerReceiver();
         Songs msong = list.get(position);
         holder.tvNameSong.setText(msong.getSongName());
         holder.tvNameArtist.setText(msong.getAritstName());
@@ -93,29 +116,37 @@ public class Child_Playlist_ItemAdapter extends RecyclerView.Adapter<Child_Playl
                 if(checkUser()){
                     if(!msong.isLiked()){
                         likeSongProcessing.addSongTofavorite(msong);
-                        imgLike.setImageResource(R.drawable.ic_heart_selected);
+                        if(msong.getSongKey() == MainActivity.msong.getSongKey()){
+                            imgLike.setImageResource(R.drawable.ic_heart_selected);
+                        }
                         holder.imgLike.setImageResource(R.drawable.ic_heart_selected);
+                        msong.setLiked(true);
                     }else{
                         likeSongProcessing.removeSongFromFavorite(msong);
                         holder.imgLike.setImageResource(R.drawable.ic_heart_none);
-                        imgLike.setImageResource(R.drawable.ic_heart_none);
-                        list.remove(position);
-                        notifyDataSetChanged();
-                        setListPlaylist(list);
+                        if(msong.getSongKey() == MainActivity.msong.getSongKey()){
+                            imgLike.setImageResource(R.drawable.ic_heart_none);
+                        }
+                        msong.setLiked(false);
+                        if(isFavorite){
+                            list.remove(position);
+                            notifyDataSetChanged();
+                            setListPlaylist(list);
+                        }
                     }
                 }else{
                     Toast.makeText(context, "Vui lòng đăng nhập để sử dụng tính năng này!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
             holder.rl_Container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(!isAdd){
-                        positionSongPlaying = position;
-                        MyService.setListSongPlaying(list);
-                        clickStartService(context);
+                            showProgressDialog();
+                            positionSongPlaying = position;
+                            MyService.setListSongPlaying(list);
+                            clickStartService(context);
                     }else{
                         listenerSong.onItemClick(msong);
                     }
@@ -142,7 +173,20 @@ public class Child_Playlist_ItemAdapter extends RecyclerView.Adapter<Child_Playl
             rl_Container= itemView.findViewById(R.id.rl_Child_Playlist);
         }
     }
-
+    private void showProgressDialog(){
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Đang tải...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+    private void registerReceiver() {
+        LocalBroadcastManager.getInstance(context).registerReceiver(MessageReciever, new IntentFilter("DismissDialog"));
+    }
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
 
 
 }

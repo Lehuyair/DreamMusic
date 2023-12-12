@@ -3,6 +3,11 @@ package com.example.mydreammusicfinal.Fragment;
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.positionSongPlaying;
 import static com.example.mydreammusicfinal.MyApplication.clickStartService;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,10 +48,21 @@ public class Fragment_Artist extends Fragment  implements OnItemListener.IOnItem
     Child_Playlist_ItemAdapter adapterSongs;
     Playlist_Vertical_Adapter adapterAlbums ;
     String keyArtist;
+    ProgressDialog progressDialog;
+    private BroadcastReceiver MessageReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+            if(message != null){
+                dismissProgressDialog();
+            }
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_artist_screen, container,false);
+        registerReceiver();
         setUI(view);
         checkShuffle();
         Bundle bundle = getArguments();
@@ -71,6 +88,7 @@ public class Fragment_Artist extends Fragment  implements OnItemListener.IOnItem
                     imgPlay.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            showProgressDialog();
                             positionSongPlaying = 0;
                             MyService.setListSongPlaying(list);
                             clickStartService(getContext());
@@ -149,6 +167,20 @@ public class Fragment_Artist extends Fragment  implements OnItemListener.IOnItem
                         .addToBackStack(null)
                         .commit();
             }
+        }
+    }
+    private void showProgressDialog(){
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Đang tải...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+    private void registerReceiver() {
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(MessageReciever, new IntentFilter("DismissDialog"));
+    }
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
         }
     }
 }

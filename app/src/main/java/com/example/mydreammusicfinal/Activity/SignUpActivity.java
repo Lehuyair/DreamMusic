@@ -26,13 +26,16 @@ public class SignUpActivity extends AppCompatActivity {
     EditText edtName, edtID, edtPW, edtConfrimPW;
     Button btnAdd, btnCancle;
     String TAG = "SignUpActivity.class";
+    String gmailRegex = "^[a-zA-Z0-9_]+@gmail\\.com$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        setStatusBar();
         InitUI();
         setClickListener();
+
     }
 
 
@@ -50,12 +53,15 @@ public class SignUpActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setStatusBar();
-                progressBar.setVisibility(View.VISIBLE);
                 String email = edtID.getText().toString().trim();
                 String name = edtName.getText().toString().trim();
                 String password = edtPW.getText().toString().trim();
+                String pwConfirm = edtConfrimPW.getText().toString().trim();
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                if(checkVertification(email, name, password, pwConfirm)==false){
+
+                }else{
+                    progressBar.setVisibility(View.VISIBLE);
                     firebaseAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -74,6 +80,34 @@ public class SignUpActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+                }
+            }
+
+            private Boolean checkVertification(String email, String name, String password, String pwConfirm) {
+                int count = 0;
+                if(email.isEmpty() || name.isEmpty() || password.isEmpty() || pwConfirm.isEmpty()){
+                    Toast.makeText(SignUpActivity.this, "Vui lòng không để trống !", Toast.LENGTH_SHORT).show();
+                    count ++;
+                }else
+                if (!email.matches(gmailRegex)){
+                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập đúng định dang gmail !", Toast.LENGTH_SHORT).show();
+                    count ++;
+                }else
+                if(password.length() < 6){
+                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập mật khẩu tối thiểu 6 ký tự !", Toast.LENGTH_SHORT).show();
+                    count ++;
+
+                }else
+                if(!password.equals(pwConfirm)){
+                    Toast.makeText(SignUpActivity.this, "Mật khẩu xác nhận chưa đúng !", Toast.LENGTH_SHORT).show();
+                    count ++;
+                }
+
+                if(count ==0){
+                    return true;
+                }else {
+                    return false;
+                }
             }
 
 

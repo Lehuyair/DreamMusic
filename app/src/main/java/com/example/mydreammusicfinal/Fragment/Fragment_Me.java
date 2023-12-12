@@ -1,5 +1,6 @@
 package com.example.mydreammusicfinal.Fragment;
 
+import static com.example.mydreammusicfinal.AUD.AUD.removePlaylist;
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.positionSongPlaying;
 import static com.example.mydreammusicfinal.MyApplication.clickStartService;
 import android.annotation.SuppressLint;
@@ -241,8 +242,7 @@ public class Fragment_Me extends Fragment implements OnItemListener.IOnItemPlayl
         }
         if(IDAdapter == 3){
             if(getActivity()!= null){
-                DatabaseReference reference= FirebaseDatabase.getInstance().getReference("users/"+IDUser+"/playlists/"+albums.getKeyAlbum());
-                reference.removeValue();
+                removePlaylist(IDUser, albums.getKeyAlbum());
                 Toast.makeText(getContext(), "Delete Sucessfully", Toast.LENGTH_SHORT).show();
                 updateYourPlaylist();
             }

@@ -140,7 +140,6 @@
             android:layout_marginEnd="20dp"
             android:layout_alignBottom="@id/cvLyrics"
             android:layout_marginBottom="140dp"
-
            />
 <androidx.cardview.widget.CardView
     app:cardCornerRadius="10dp"

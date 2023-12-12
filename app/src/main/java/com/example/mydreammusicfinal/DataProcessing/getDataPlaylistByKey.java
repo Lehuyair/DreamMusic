@@ -39,7 +39,7 @@ public class getDataPlaylistByKey extends AsyncTask<Void, Void, Void> {
                         final int[] totalUsers = {0};
                         Iterable<DataSnapshot> usersSnapshots = dataSnapshot.child("users").getChildren();
                         for (DataSnapshot userSnapshot : usersSnapshots) {
-                            String userId = userSnapshot.getKey(); // Lấy key làm userId
+                            String userId = userSnapshot.getKey();
                             totalUsers[0]++;
                             final String[] totalName = {""};
                             DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
@@ -71,7 +71,6 @@ public class getDataPlaylistByKey extends AsyncTask<Void, Void, Void> {
                 } else {
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Handle error

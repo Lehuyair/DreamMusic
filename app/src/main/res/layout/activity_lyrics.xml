@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingTop="40dp"
     android:layout_width="match_parent"
-    android:background="@color/blue"
+    android:background="@drawable/bluetoblack"
     android:id="@+id/rlLyrics"
     android:layout_height="match_parent">
 
@@ -35,22 +35,60 @@
         android:layout_height="wrap_content"
         android:text="Song's Name"/>
     <ScrollView
+        android:id="@+id/ScrollView_"
         android:layout_marginTop="75dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/seekbar_Lyrics"
+        android:layout_marginBottom="40dp"
+
         android:padding="20dp">
-        <TextView
-            android:textColor="@color/white"
-            android:id="@+id/tvContentLyrics"
+        <LinearLayout
+            android:id="@+id/ln_container_lyrics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lyrics....."
-            android:textSize="20dp"
-            android:fontFamily="@font/helvetica_bold"
-            android:layout_alignTop="@id/nameArtist"
-            android:layout_marginBottom="15dp"/>
+            android:orientation="vertical">
+            <TextView
+                android:textColor="@color/white"
+                android:id="@+id/tvContentLyrics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lyrics....."
+                android:textSize="20dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:layout_alignTop="@id/nameArtist"
+                android:layout_marginBottom="15dp"/>
+
+        </LinearLayout>
     </ScrollView>
+    <SeekBar
+        android:id="@+id/seekbar_Lyrics"
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:layout_marginRight="50dp"
+        android:thumb="@drawable/seekbar_thumb_custom"
+        android:layout_alignBottom="@+id/img_Play_lyrics"
+        android:layout_marginBottom="70dp"
+        />
+    <TextView
+        android:layout_alignEnd="@+id/seekbar_Lyrics"
+        android:layout_alignBottom="@+id/img_Play_lyrics"
+        android:layout_marginBottom="70dp"
+        android:layout_marginEnd="-30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvCurrentTime_Lyrics"
+        android:textSize="13dp"
+        android:text=" 03: 30"/>
+    <ImageView
+        android:id="@+id/img_Play_lyrics"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_play32"
+        android:backgroundTint="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"/>
 
 </RelativeLayout>
