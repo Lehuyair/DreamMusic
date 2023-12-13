@@ -217,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(songData != null){
                 gotoSheetMediaScreen(songData,actionSong,mediaStatus);
             }
+            handleLayoutMusic(actionSong);
 
         }
     }

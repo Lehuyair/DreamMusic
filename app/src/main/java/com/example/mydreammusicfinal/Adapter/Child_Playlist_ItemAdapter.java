@@ -116,17 +116,17 @@ public class Child_Playlist_ItemAdapter extends RecyclerView.Adapter<Child_Playl
                 if(checkUser()){
                     if(!msong.isLiked()){
                         likeSongProcessing.addSongTofavorite(msong);
-                        if(msong.getSongKey() == MainActivity.msong.getSongKey()){
-                            imgLike.setImageResource(R.drawable.ic_heart_selected);
-                        }
+//                        if(msong.getSongKey() == MainActivity.msong.getSongKey()){
+//                            imgLike.setImageResource(R.drawable.ic_heart_selected);
+//                        }
                         holder.imgLike.setImageResource(R.drawable.ic_heart_selected);
                         msong.setLiked(true);
                     }else{
                         likeSongProcessing.removeSongFromFavorite(msong);
                         holder.imgLike.setImageResource(R.drawable.ic_heart_none);
-                        if(msong.getSongKey() == MainActivity.msong.getSongKey()){
-                            imgLike.setImageResource(R.drawable.ic_heart_none);
-                        }
+//                        if(msong.getSongKey() == MainActivity.msong.getSongKey()){
+//                            imgLike.setImageResource(R.drawable.ic_heart_none);
+//                        }
                         msong.setLiked(false);
                         if(isFavorite){
                             list.remove(position);
