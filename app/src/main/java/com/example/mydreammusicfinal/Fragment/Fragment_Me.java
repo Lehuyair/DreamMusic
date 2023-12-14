@@ -1,10 +1,7 @@
 package com.example.mydreammusicfinal.Fragment;
 
-<<<<<<< HEAD
-import static com.example.mydreammusicfinal.Constance.Constance.KEY_NAME_USER_REGISTRY;
-=======
 import static com.example.mydreammusicfinal.AUD.AUD.removePlaylist;
->>>>>>> 101137c04a9c911963c3227e73634c760a2030f5
+import static com.example.mydreammusicfinal.Constance.Constance.KEY_NAME_USER_REGISTRY;
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.positionSongPlaying;
 import static com.example.mydreammusicfinal.MyApplication.clickStartService;
 import android.annotation.SuppressLint;
