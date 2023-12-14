@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,7 +49,7 @@ public class VerifyphoneNumberActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verifyphone_number);
-
+        setStatusBar();
         initui();
         seTitleToobar();
 
@@ -166,7 +167,10 @@ public class VerifyphoneNumberActivity extends AppCompatActivity {
         intent.putExtra(KEY_NAME_USER_REGISTRY, edtfullname.getText().toString().trim());
         startActivity(intent);
     }
-
+    private void setStatusBar() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+    }
 
 
 

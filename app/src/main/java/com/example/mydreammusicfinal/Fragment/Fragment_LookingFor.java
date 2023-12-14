@@ -95,12 +95,10 @@ public class Fragment_LookingFor extends Fragment implements OnItemListener.IOnI
         });
     }
     private void queryToFirebase(String searchText) {
-        showProgressDialog();
         getAllSongs task1 = new getAllSongs(searchText, new CallBackListener.SongsCallBack() {
                 @Override
                 public void onCallbackSong(ArrayList<Songs> list) {
                     updateRecyclerViewSongs(list);
-                    dismissProgressDialog();
                 }
             });
         task1.execute();

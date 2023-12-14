@@ -20,6 +20,7 @@ import static com.example.mydreammusicfinal.Constance.Constance.KEY_SEEKBAR_UPDA
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_SEND_DATA_TO_ACTIGVITY;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_STATUS_PLAYER;
 import static com.example.mydreammusicfinal.MyApplication.Channel_ID_Name;
+import static com.example.mydreammusicfinal.MyApplication.sendActionToActivity;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -127,7 +128,7 @@ public class MyService extends Service {
                 sendNotification();
             }
         });
-        sendActionToActivity(ACTION_START);
+        sendActionToActivity(getApplicationContext(),ACTION_START);
         sendActionToMediaScreen(ACTION_START);
         updateSeekBar.run();
         setCompeleteSong();
@@ -152,7 +153,7 @@ public class MyService extends Service {
 
     private void clearMusic() {
         stopSelf();
-        sendActionToActivity(ACTION_CLEAR);
+        sendActionToActivity(getApplicationContext(),ACTION_CLEAR);
         sendActionToMediaScreen(ACTION_CLEAR);
 
     }
@@ -162,7 +163,7 @@ public class MyService extends Service {
             mediaPlayer.start();
             isPlaying = true;
             sendNotification();
-            sendActionToActivity(ACTION_RESUME);
+            sendActionToActivity(getApplicationContext(),ACTION_RESUME);
             sendActionToMediaScreen(ACTION_RESUME);
             updateSeekBar.run();
             setCompeleteSong();
@@ -175,7 +176,7 @@ public class MyService extends Service {
             mediaPlayer.pause();
             isPlaying = false;
             sendNotification();
-            sendActionToActivity(ACTION_PAUSE);
+            sendActionToActivity(getApplicationContext(),ACTION_PAUSE);
             sendActionToMediaScreen(ACTION_PAUSE);
         }
     }
@@ -193,7 +194,7 @@ public class MyService extends Service {
             positionSongPlaying = 0;
         }
         startMusic();
-        sendActionToActivity(ACTION_START);
+        sendActionToActivity(getApplicationContext(),ACTION_START);
         sendActionToMediaScreen(ACTION_START);
         sendNotification();
         updateSeekBar.run();
@@ -218,7 +219,7 @@ public class MyService extends Service {
 
         startMusic();
         sendNotification();
-        sendActionToActivity(ACTION_START);
+        sendActionToActivity(getApplicationContext(),ACTION_START);
         sendActionToMediaScreen(ACTION_START);
         updateSeekBar.run();
         setCompeleteSong();
@@ -297,14 +298,16 @@ public class MyService extends Service {
                     public void onLoadCleared(@Nullable Drawable placeholder) {
                     }
                 });
+        startForeground(1, notificationBuilder.build());
+
     }
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(mediaPlayer != null){
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
+//        if(mediaPlayer != null){
+//            mediaPlayer.release();
+//            mediaPlayer = null;
+//        }
     }
     private PendingIntent gotoMediaScreenIntent(Context context, Songs songs){
         Intent intent = new Intent(this, MainActivity.class);
@@ -321,14 +324,7 @@ public class MyService extends Service {
         return  PendingIntent.getBroadcast(context.getApplicationContext(), Action,intent,
                 PendingIntent.FLAG_IMMUTABLE);
     }
-    private void sendActionToActivity(int action){
-        Intent intent = new Intent(KEY_SEND_DATA_TO_ACTIGVITY);
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(KEY_STATUS_PLAYER,isPlaying);
-        bundle.putInt(KEY_ACTION_MUSIC,action);
-        intent.putExtras(bundle);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-    }
+
     private void sendActionToMediaScreen(int action){
         Intent intent = new Intent(KEY_BROADCAST_TO_MEDIASCREEN);
         Bundle bundle = new Bundle();

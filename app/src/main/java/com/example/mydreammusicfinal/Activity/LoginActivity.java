@@ -1,4 +1,9 @@
 package com.example.mydreammusicfinal.Activity;
+import static com.example.mydreammusicfinal.Constance.Constance.ACTION_RESUME;
+import static com.example.mydreammusicfinal.Constance.Constance.ACTION_START;
+import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.isPlaying;
+import static com.example.mydreammusicfinal.MyApplication.sendActionToActivity;
+
 import com.example.mydreammusicfinal.R;
 
 import android.content.Intent;
@@ -76,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Email hoặc password không được bỏ trống", Toast.LENGTH_SHORT).show();
                 } else {
                     login(IDcheck, PWCheck);
+                    sendActionToActivity(getApplicationContext(),ACTION_START);
+
 
                 }
             }
@@ -98,7 +105,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
             }
         });
     }

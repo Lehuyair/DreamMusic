@@ -12,6 +12,7 @@ import static com.example.mydreammusicfinal.Constance.Constance.KEY_PROGRESS_MED
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_SEEKBAR_UPDATE;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_SEND_DATA_TO_ACTIGVITY;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_STATUS_PLAYER;
+import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.isPlaying;
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.listSongPlaying;
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.mediaPlayer;
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.positionSongPlaying;
@@ -31,6 +32,7 @@ import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -88,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             isPlaying = (boolean) bundle.get(KEY_STATUS_PLAYER);
             ACTIONMEDIA = (int) bundle.get(KEY_ACTION_MUSIC);
             handleLayoutMusic(ACTIONMEDIA);
+
+
         }
     };
     private BroadcastReceiver seekBarReceiver = new BroadcastReceiver() {
@@ -117,6 +121,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         isDataFromNotification();
         setTextItemNavigation();
         bottomNavigationController();
+        if(MyService.isPlaying){
+            handleLayoutMusic(ACTION_START);
+        }
 
     }
     public void setStatusBar() {

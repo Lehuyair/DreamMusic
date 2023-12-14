@@ -1,7 +1,12 @@
 package com.example.mydreammusicfinal;
 
 import static com.example.mydreammusicfinal.Constance.Constance.ACTION_START;
+import static com.example.mydreammusicfinal.Constance.Constance.KEY_ACTION_MUSIC;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_ACTION_STATUS_SERVICE;
+import static com.example.mydreammusicfinal.Constance.Constance.KEY_SEND_DATA_TO_ACTIGVITY;
+import static com.example.mydreammusicfinal.Constance.Constance.KEY_STATUS_PLAYER;
+import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.isPlaying;
+
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,7 +16,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.mydreammusicfinal.Local_Data.Data_local_Manager;
 import com.example.mydreammusicfinal.MediaPlayerManager.MyService;
@@ -49,6 +57,14 @@ public class MyApplication extends Application {
         Intent intent = new Intent(context, MyService.class);
         intent.putExtra(KEY_ACTION_STATUS_SERVICE,Action);
         context.startService(intent);
+    }
+    public static void sendActionToActivity(Context context,int action){
+        Intent intent = new Intent(KEY_SEND_DATA_TO_ACTIGVITY);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(KEY_STATUS_PLAYER,isPlaying);
+        bundle.putInt(KEY_ACTION_MUSIC,action);
+        intent.putExtras(bundle);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     public static Boolean  checkUser(){

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -50,6 +51,7 @@ public class OTPActivity extends AppCompatActivity {
 
         getDataIntent();
         initui();
+        setStatusBar();
         seTitleToobar();
         mAuth = FirebaseAuth.getInstance();
         btnphonenumotp.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +152,11 @@ public class OTPActivity extends AppCompatActivity {
         edtphoneotp = findViewById(R.id.edt_otp);
         btnphonenumotp = findViewById(R.id.btn_otp);
         txtmisspass = findViewById(R.id.txtotp);
+    }
+
+    private void setStatusBar() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
 }
