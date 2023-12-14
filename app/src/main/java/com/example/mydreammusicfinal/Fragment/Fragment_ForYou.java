@@ -126,7 +126,7 @@ public class Fragment_ForYou extends Fragment implements OnItemListener.IOnItemP
                 handler.postDelayed(runnable,3500);
             }
         });
-    }
+    }//
 
     private void handleDreamMusicChoiceData() {
         getDataPlaylistByTag taskDream = new getDataPlaylistByTag(getContext(),"Dream Music's Choice", new CallBackListener.PlaylistCallBack() {

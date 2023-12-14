@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    android:background="@drawable/edt_otp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="20dp"
+            >
+            <ImageButton
+                android:id="@+id/backButtonupdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_backotp"
+                android:background="@drawable/ic_backotp"
+                android:layout_marginTop="20dp"
+
+
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Chỉnh sửa"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="105dp"
+                android:layout_gravity="center"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_update"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="7dp"
+                android:text="Lưu"
+                android:textColor="#fff"
+                android:textSize="10dp"
+                android:layout_marginLeft="95dp"
+                android:background="@drawable/boder_button"
+                android:backgroundTint="@null"/>
+
+
+        </LinearLayout>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgavataupprofile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:cardCornerRadius="75dp"
+            android:layout_marginTop="0dp"
+            android:layout_gravity="center"
+            android:src="@drawable/img_logo">
+
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+        <EditText
+            android:id="@+id/edt_fullnameupde"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_margin="20dp"
+            android:hint="Current Password"
+
+            android:textColor="#fff"
+            android:paddingLeft="30dp"
+            android:background="@drawable/edt_otp"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/edt_emaildupde"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_margin="15dp"
+            android:hint="Confirm Password"
+            android:paddingLeft="30dp"
+            android:textColor="#fff"
+            android:background="@drawable/bg_edt"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</androidx.core.widget.NestedScrollView>

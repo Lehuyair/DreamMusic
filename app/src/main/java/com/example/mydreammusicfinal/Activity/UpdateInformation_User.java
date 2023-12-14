@@ -49,6 +49,7 @@ public class UpdateInformation_User extends AppCompatActivity {
         imgUpdate = findViewById(R.id.imgUpdateUser);
         tvName = findViewById(R.id.tvName);
         tvName.setText(nameUser);
+        seTitleToobar();
         imgUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,5 +111,11 @@ public class UpdateInformation_User extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private  void  seTitleToobar(){
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setTitle("Updatectivity");
+        }
     }
 }

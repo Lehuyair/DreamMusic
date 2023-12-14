@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     TextView tvError, tvFortgot, tvCountCheck;
-    LinearLayout lnSignUp, lnWithinAcount;
+    LinearLayout lnSignUp, lnWithinAcount,lnOTP;
     EditText edtID, edtPW;
     CheckBox chkRemember;
     Button btnLogin;
@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         lnSignUp = findViewById(R.id.lnSignUp);
         lnWithinAcount = findViewById(R.id.lnWithinAcount);
         progressBar = findViewById(R.id.progress_Login);
+        lnOTP = findViewById(R.id.lnOTP);
     }
 
     private void setOnclick() {
@@ -85,6 +86,14 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
             }
         });
+
+        lnOTP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, VerifyphoneNumberActivity.class));
+            }
+        });
+
         lnWithinAcount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

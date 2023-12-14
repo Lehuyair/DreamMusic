@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/edt_otp"
+
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_margin="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_backotp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" We have send you an "
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" One TIme Password(OTP)"
+            android:textStyle="bold"
+            android:textColor="#000"
+            />
+    </LinearLayout>
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="-20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" on this mobile numer"
+        android:layout_marginBottom="150dp"
+        />
+
+
+    <EditText
+
+        android:id="@+id/edt_otp"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_margin="15dp"
+        android:hint="Current Password"
+
+        android:textColor="#fff"
+        android:paddingLeft="30dp"
+        android:background="@drawable/bg_otp"
+        android:layout_gravity="center"/>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_otp"
+        android:layout_width="265dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="Sign In"
+        android:textColor="#fff"
+        android:background="@drawable/boder_button"
+        android:backgroundTint="@null"/>
+    <TextView
+        android:id="@+id/txtotp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Not OTP"/>
+
+
+</LinearLayout>

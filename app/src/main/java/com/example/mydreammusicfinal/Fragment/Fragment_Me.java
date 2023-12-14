@@ -1,5 +1,6 @@
 package com.example.mydreammusicfinal.Fragment;
 
+import static com.example.mydreammusicfinal.Constance.Constance.KEY_NAME_USER_REGISTRY;
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.positionSongPlaying;
 import static com.example.mydreammusicfinal.MyApplication.clickStartService;
 import android.annotation.SuppressLint;
@@ -76,10 +77,12 @@ public class Fragment_Me extends Fragment implements OnItemListener.IOnItemPlayl
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
         OnClickListener();
         getDataFavoriteFromUser();
         updatePlaylistRecent();
         updateYourPlaylist();
+        setTvName();
         return view;
     }
 
@@ -104,7 +107,24 @@ public class Fragment_Me extends Fragment implements OnItemListener.IOnItemPlayl
         tvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.LogOut(getContext());
+                if (getActivity() != null) {
+
+                    // 2. Tạo Fragment_Playlist_Screen mới
+                    Fragment_ViewProfile fragment1 = new Fragment_ViewProfile();
+
+
+                    // 4. Lấy FragmentManager từ hoạt động
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                    // 5. Bắt đầu giao dịch FragmentTransaction
+                    fragmentManager.beginTransaction()
+                            // 6. Thay thế Fragment hiện tại bằng Fragment_Playlist_Screen
+                            .replace(R.id.view_pager, fragment1)
+                            // 7. Thêm vào Back Stack để có thể quay lại Fragment_Me nếu cần
+                            .addToBackStack(null)
+                            // 8. Áp dụng các thay đổi
+                            .commit();
+                }
             }
         });
         ln_addNewPlaylist.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +141,8 @@ public class Fragment_Me extends Fragment implements OnItemListener.IOnItemPlayl
             }
         });
     }
+
+
     public void ShowUserInformation(Context context, TextView Name, ImageView avatar) throws FileNotFoundException {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(firebaseUser == null){
@@ -263,5 +285,15 @@ public class Fragment_Me extends Fragment implements OnItemListener.IOnItemPlayl
         }
 
     }
+
+    public void setTvName(){
+        Bundle arguments = getArguments();
+        if (arguments != null && arguments.containsKey(KEY_NAME_USER_REGISTRY)) {
+            String userName = arguments.getString(KEY_NAME_USER_REGISTRY);
+            // Hiển thị dữ liệu trong TextView
+            tvName.setText(userName);
+        }
+    }
+
 
 }

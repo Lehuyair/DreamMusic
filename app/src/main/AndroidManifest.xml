@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -16,6 +20,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDreamMusicFinal"
         tools:targetApi="31">
+        <activity
+            android:name=".Activity.OTPActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.VerifyphoneNumberActivity"
+            android:exported="false" />
         <activity
             android:name=".Fragment.Fragment_AddNewPlaylist"
             android:exported="false" />
@@ -51,10 +61,9 @@
             android:exported="false" />
         <activity
             android:name=".Activity.LoginActivity"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".Activity.MainActivity"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".Activity.MainActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".Activity.MainActivity"
             android:exported="true">
