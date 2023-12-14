@@ -2,12 +2,15 @@ package com.example.mydreammusicfinal.Fragment;
 
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +46,7 @@ public class Fragment_LookingFor extends Fragment implements OnItemListener.IOnI
     LinearLayoutManager linearLayoutManager;
     Playlist_Vertical_Adapter adapterPlaylist;
     RecyclerView rvSongs, rvArtist, rvPlaylist;
+    ProgressDialog progressDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,10 +95,12 @@ public class Fragment_LookingFor extends Fragment implements OnItemListener.IOnI
         });
     }
     private void queryToFirebase(String searchText) {
-            getAllSongs task1 = new getAllSongs(searchText, new CallBackListener.SongsCallBack() {
+        showProgressDialog();
+        getAllSongs task1 = new getAllSongs(searchText, new CallBackListener.SongsCallBack() {
                 @Override
                 public void onCallbackSong(ArrayList<Songs> list) {
                     updateRecyclerViewSongs(list);
+                    dismissProgressDialog();
                 }
             });
         task1.execute();
@@ -169,5 +175,17 @@ public class Fragment_LookingFor extends Fragment implements OnItemListener.IOnI
                        .commit();
            }
        }
+    }
+    private void showProgressDialog(){
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Đang tải...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 }

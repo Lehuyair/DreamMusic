@@ -3,10 +3,16 @@ package com.example.mydreammusicfinal.Fragment;
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.positionSongPlaying;
 import static com.example.mydreammusicfinal.MyApplication.clickStartService;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,10 +52,21 @@ public class Fragment_YourPlaylist_Manager extends Fragment implements View.OnCl
     String idPlaylist;
     Songs newSongs;
     ArrayList<Songs> listPlaylist;
+    ProgressDialog progressDialog;
+    private BroadcastReceiver MessageReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+            if(message != null){
+                dismissProgressDialog();
+            }
+        }
+    };
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment__your_playlist__manager, container, false);
+        registerReceiver();
         setUI(view);
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -134,6 +151,7 @@ public class Fragment_YourPlaylist_Manager extends Fragment implements View.OnCl
             }
         }
             if(v.getId() == R.id.imgPlay_YourPlaylist){
+                        showProgressDialog();
                         positionSongPlaying = 0;
                         MyService.setListSongPlaying(listPlaylist);
                         clickStartService(getContext());
@@ -152,6 +170,20 @@ public class Fragment_YourPlaylist_Manager extends Fragment implements View.OnCl
                     .replace(R.id.view_pager, fragment1)
                     .addToBackStack(null)
                     .commit();
+        }
+    }
+    private void showProgressDialog(){
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Đang tải...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+    private void registerReceiver() {
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(MessageReciever, new IntentFilter("DismissDialog"));
+    }
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
         }
     }
 }

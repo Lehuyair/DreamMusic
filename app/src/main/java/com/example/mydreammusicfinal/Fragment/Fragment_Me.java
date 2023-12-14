@@ -1,6 +1,10 @@
 package com.example.mydreammusicfinal.Fragment;
 
+<<<<<<< HEAD
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_NAME_USER_REGISTRY;
+=======
+import static com.example.mydreammusicfinal.AUD.AUD.removePlaylist;
+>>>>>>> 101137c04a9c911963c3227e73634c760a2030f5
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.positionSongPlaying;
 import static com.example.mydreammusicfinal.MyApplication.clickStartService;
 import android.annotation.SuppressLint;
@@ -263,8 +267,7 @@ public class Fragment_Me extends Fragment implements OnItemListener.IOnItemPlayl
         }
         if(IDAdapter == 3){
             if(getActivity()!= null){
-                DatabaseReference reference= FirebaseDatabase.getInstance().getReference("users/"+IDUser+"/playlists/"+albums.getKeyAlbum());
-                reference.removeValue();
+                removePlaylist(IDUser, albums.getKeyAlbum());
                 Toast.makeText(getContext(), "Delete Sucessfully", Toast.LENGTH_SHORT).show();
                 updateYourPlaylist();
             }

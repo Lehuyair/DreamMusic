@@ -42,12 +42,8 @@ public class UpdateInformation_User extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_information_user);
+        setUI();
         String nameUser = getIntent().getStringExtra(KEY_NAME_USER_REGISTRY);
-        btnUpdate = findViewById(R.id.btnUpdate);
-        tvSkip = findViewById(R.id.tvSkip);
-        imgBack = findViewById(R.id.imgBack);
-        imgUpdate = findViewById(R.id.imgUpdateUser);
-        tvName = findViewById(R.id.tvName);
         tvName.setText(nameUser);
         seTitleToobar();
         imgUpdate.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +58,11 @@ public class UpdateInformation_User extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = tvName.getText().toString().trim();
-                updateProfile(name,uriAvatar);
+                if(uriAvatar == null){
+                    Toast.makeText(UpdateInformation_User.this, "Vui lòng chon hình ảnh", Toast.LENGTH_SHORT).show();
+                }else{
+                    updateProfile(name,uriAvatar);
+                }
             }
         });
         tvSkip.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +79,15 @@ public class UpdateInformation_User extends AppCompatActivity {
             }
         });
     }
+
+    private void setUI() {
+        btnUpdate = findViewById(R.id.btnUpdate);
+        tvSkip = findViewById(R.id.tvSkip);
+        imgBack = findViewById(R.id.imgBack);
+        imgUpdate = findViewById(R.id.imgUpdateUser);
+        tvName = findViewById(R.id.tvName);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

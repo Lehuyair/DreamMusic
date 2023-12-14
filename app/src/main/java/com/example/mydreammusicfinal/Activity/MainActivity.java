@@ -18,12 +18,14 @@ import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.positio
 import static com.example.mydreammusicfinal.MyApplication.checkUser;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Spannable;
@@ -65,15 +67,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     BottomNavigationView bottomNavigationView;
     public static LinearLayout viewPager;
     RelativeLayout rl_MediaCompact;
-    public static TextView tvNameArtist, tvNameSong;
+    public static TextView tvNameArtist, tvNameSong, tvStatusInternet;
     public static ImageView imgSong, imgLike, imgPlay, imgNext;
     public static SeekBar seekBar;
     private boolean isPlaying;
     private int ACTIONMEDIA;
     LikeSongProcessing likeSongProcessing;
     FragmentManager fragmentManager;
-    Songs msong;
-    private MyApplication.NetworkChangeReceiver networkChangeReceiver = new MyApplication.NetworkChangeReceiver();
+    public static Songs msong;
+    private NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
 
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LocalBroadcastManager.getInstance(this).registerReceiver(seekBarReceiver, new IntentFilter(KEY_SEEKBAR_UPDATE));
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeReceiver, intentFilter);
+        isDataFromNotification();
         setTextItemNavigation();
         bottomNavigationController();
 
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void setUI() {
+        tvStatusInternet = findViewById(R.id.tvStatusInternet);
         rl_MediaCompact = findViewById(R.id.rl_mediaCompact_Controller);
         tvNameArtist = findViewById(R.id.tv_NameArtist_CompactController);
         tvNameSong = findViewById(R.id.tv_NameSong_CompactController);
@@ -132,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         seekBar = findViewById(R.id.seekbar_CompactController);
         viewPager = findViewById(R.id.view_pager);
         bottomNavigationView = findViewById(R.id.bottom_nav);
+
 
     }
     private void setTextItemNavigation() {
@@ -200,6 +205,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showInformationCompactMedia();
                 setStatusCompactMediaPlayerController();
                 break;
+        }
+    }
+    private void isDataFromNotification(){
+        Intent intent = getIntent();
+        if (intent != null && intent.getExtras() != null) {
+            Bundle bundle = intent.getExtras();
+            Songs songData = (Songs) bundle.getSerializable("Song_Data");
+            int actionSong = bundle.getInt("Action_Song");
+            boolean mediaStatus = bundle.getBoolean("mediaStatus");
+            if(songData != null){
+                gotoSheetMediaScreen(songData,actionSong,mediaStatus);
+            }
+            handleLayoutMusic(actionSong);
+
         }
     }
 
@@ -307,9 +326,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (!msong.isLiked()) {
                     likeSongProcessing.addSongTofavorite(msong);
                     imgLike.setImageResource(R.drawable.ic_heart_selected);
-                } else {
+                    msong.setLiked(true);
+                }else{
                     likeSongProcessing.removeSongFromFavorite(msong);
                     imgLike.setImageResource(R.drawable.ic_heart_none);
+                    msong.setLiked(false);
                 }
             }else{
                 Toast.makeText(this, "Vui lòng đăng nhập để có thể sử dụng tính năng này!", Toast.LENGTH_SHORT).show();
@@ -317,14 +338,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else
 
         if(v.getId()==R.id.rl_mediaCompact_Controller){
-            Fragment_Sheet_PlayerMediaScreen mediaPlayerScreen = new Fragment_Sheet_PlayerMediaScreen();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("Song_Data", msong);
-            bundle.putInt("Action_Song", ACTION_START);
-            bundle.putBoolean("mediaStatus", isPlaying);
-            mediaPlayerScreen.setArguments(bundle);
-            mediaPlayerScreen.show(getSupportFragmentManager(), mediaPlayerScreen.getTag());
+            gotoSheetMediaScreen(msong,ACTION_START,isPlaying);
         }
     }
+    private void gotoSheetMediaScreen(Songs songData, int Action, Boolean IsPlaying){
+        Fragment_Sheet_PlayerMediaScreen mediaPlayerScreen = new Fragment_Sheet_PlayerMediaScreen();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Song_Data", songData);
+        bundle.putInt("Action_Song", Action);
+        bundle.putBoolean("mediaStatus", IsPlaying);
+        mediaPlayerScreen.setArguments(bundle);
+        mediaPlayerScreen.show(getSupportFragmentManager(), mediaPlayerScreen.getTag());
+    }
+    public static class NetworkChangeReceiver extends BroadcastReceiver {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (isNetworkAvailable(context)) {
+                Toast.makeText(context, "Your Internet is connected !", Toast.LENGTH_SHORT).show();
+                tvStatusInternet.setVisibility(View.GONE);
+            } else {
+                tvStatusInternet.setText("Your internet is disconnected !");
+                tvStatusInternet.setVisibility(View.VISIBLE);
+
+            }
+        }
+
+        private boolean isNetworkAvailable(Context context) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connectivityManager != null) {
+                NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+            }
+            return false;
+        }
+    }
 }

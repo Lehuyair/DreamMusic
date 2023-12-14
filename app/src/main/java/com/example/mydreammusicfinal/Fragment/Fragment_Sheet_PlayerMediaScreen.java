@@ -6,16 +6,16 @@ import static com.example.mydreammusicfinal.Constance.Constance.ACTION_PREVIOUS;
 import static com.example.mydreammusicfinal.Constance.Constance.ACTION_RESUME;
 import static com.example.mydreammusicfinal.Constance.Constance.ACTION_START;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_ACTION_MUSIC;
-import static com.example.mydreammusicfinal.Constance.Constance.KEY_ACTION_STATUS_SERVICE;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_BROADCAST_TO_MEDIASCREEN;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_CURRENT_SONG;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_MAXSEEKBAR;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_PROGRESS_MEDIA;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_SEEKBAR_UPDATE;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_STATUS_PLAYER;
-import static com.example.mydreammusicfinal.DataProcessing.LoadLyricsFromURLTask.loadLyrics;
+import static com.example.mydreammusicfinal.DataProcessing.LoadLyricsFromURLTask.loadLyricsCompact;
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.mediaPlayer;
 import static com.example.mydreammusicfinal.MyApplication.checkUser;
+import static com.example.mydreammusicfinal.MyApplication.sendActionToService;
 
 import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
@@ -25,6 +25,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -238,23 +239,23 @@ public class Fragment_Sheet_PlayerMediaScreen extends BottomSheetDialogFragment 
             public void onClick(View v) {
                 if(isPlaying){
                     btnPlay.setImageResource(R.drawable.ic_pause2);
-                    sendActionToService(ACTION_PAUSE, MyService.positionSongPlaying);
+                    sendActionToService(getContext(),ACTION_PAUSE, MyService.positionSongPlaying);
                 }else{
                     btnPlay.setImageResource(R.drawable.ic_play32);
-                    sendActionToService(ACTION_RESUME, MyService.positionSongPlaying);
+                    sendActionToService(getContext(),ACTION_RESUME, MyService.positionSongPlaying);
                 }
             }
         });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendActionToService(ACTION_NEXT, MyService.positionSongPlaying);
+                sendActionToService(getContext(),ACTION_NEXT, MyService.positionSongPlaying);
             }
         });
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendActionToService(ACTION_PREVIOUS, MyService.positionSongPlaying);
+                sendActionToService(getContext(),ACTION_PREVIOUS, MyService.positionSongPlaying);
             }
         });
         imgExpand.setOnClickListener(new View.OnClickListener() {
@@ -263,6 +264,7 @@ public class Fragment_Sheet_PlayerMediaScreen extends BottomSheetDialogFragment 
                 Intent intent = new Intent(getActivity(), Lyrics.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("mSong",msong);
+                bundle.putBoolean("isPlaying",isPlaying);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slideup,R.anim.slidedown);
@@ -275,9 +277,11 @@ public class Fragment_Sheet_PlayerMediaScreen extends BottomSheetDialogFragment 
                     if(!msong.isLiked()){
                         likeSongProcessing.addSongTofavorite(msong);
                         imgLike.setImageResource(R.drawable.ic_heart_selected);
+                        msong.setLiked(true);
                     }else{
                         likeSongProcessing.removeSongFromFavorite(msong);
                         imgLike.setImageResource(R.drawable.ic_heart_none);
+                        msong.setLiked(false);
                     }
                 }else{
                     Toast.makeText(getContext(), "Vui lòng đăng nhập để sử dụng tính năng này!", Toast.LENGTH_SHORT).show();
@@ -325,7 +329,7 @@ public class Fragment_Sheet_PlayerMediaScreen extends BottomSheetDialogFragment 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     int current = seekBar.getProgress();
-                    loadLyrics(msong,false,current,tvLyrics1);
+                    loadLyricsCompact(msong,current,tvLyrics1);
             }
 
             @Override
@@ -340,19 +344,10 @@ public class Fragment_Sheet_PlayerMediaScreen extends BottomSheetDialogFragment 
                 }
             }
         });
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
                 seekBar.setProgress(progressBar);
                 tvCurrentTime.setText(sdf.format(mediaPlayer.getCurrentPosition()).toString());
-            }
-        },500);
     }
-    private  void sendActionToService(int Action, int songPosition){
-        Intent intent = new Intent(getContext(), MyService.class);
-        intent.putExtra(KEY_ACTION_STATUS_SERVICE,Action);
-        getActivity().startService(intent);
-    }
+
     private void setStatusCompactMediaPlayerController(){
         if(isPlaying){
             btnPlay.setImageResource(R.drawable.ic_pause2);

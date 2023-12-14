@@ -1,5 +1,7 @@
 package com.example.mydreammusicfinal.Fragment;
 
+import static com.example.mydreammusicfinal.AUD.AUD.createNewPlaylist;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,7 +27,6 @@ import java.util.UUID;
 public class Fragment_AddNewPlaylist extends Fragment implements View.OnClickListener {
     EditText edtNamePlaylist;
     Button btnCancle, btnCreate;
-    DatabaseReference reference;
 
     @Nullable
     @Override
@@ -74,10 +75,7 @@ public class Fragment_AddNewPlaylist extends Fragment implements View.OnClickLis
             }
         }
     }
-    public void createNewPlaylist(String UserID,String IDPlaylist,String namePlayList){
-        reference= FirebaseDatabase.getInstance().getReference("users/"+UserID+"/playlists/"+IDPlaylist+"/namePlaylist");
-        reference.setValue(namePlayList);
-    }
+
     public String getUniqueIDPlaylist() {
         UUID uniqueKey = UUID.randomUUID();
         return uniqueKey.toString();

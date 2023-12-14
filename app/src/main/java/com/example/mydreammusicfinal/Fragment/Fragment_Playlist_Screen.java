@@ -5,8 +5,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -41,10 +48,21 @@ public class Fragment_Playlist_Screen extends Fragment implements OnItemListener
      ArrayList<Songs> listPlaylist;
     String JsonPlaylist;
     Playlists albums;
+    ProgressDialog progressDialog;
+    private BroadcastReceiver MessageReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+            if(message != null){
+                dismissProgressDialog();
+            }
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_playlist_screen,container,false);
+        registerReceiver();
         if (getActivity() instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) getActivity();
             mainActivity.setStatusBar();
@@ -82,6 +100,7 @@ public class Fragment_Playlist_Screen extends Fragment implements OnItemListener
             tvNamePlaylist.setText("Your Liked Songs");
             imgAvatar.setImageResource(R.drawable.img_redheart);
             trendItemAdapter = new Child_Playlist_ItemAdapter(getContext(), listPlaylist);
+            trendItemAdapter.setIsFavorite(true);
             trendItemAdapter.setOnItemListener(Fragment_Playlist_Screen.this);
             recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.setAdapter(trendItemAdapter);
@@ -111,6 +130,7 @@ public class Fragment_Playlist_Screen extends Fragment implements OnItemListener
         imgShuffle = view.findViewById(R.id.imgShuffle_Playlist);
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
     }
+
     @Override
     public void onItemClick(String keyArtist) {
         if (getActivity() != null) {
@@ -125,7 +145,6 @@ public class Fragment_Playlist_Screen extends Fragment implements OnItemListener
                     .commit();
         }
     }
-
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.imgBackPlaylist){
@@ -133,6 +152,7 @@ public class Fragment_Playlist_Screen extends Fragment implements OnItemListener
             fragmentManager.popBackStack();
         }
         if(v.getId() ==R.id.imgPlay_Playlist){
+            showProgressDialog();
             positionSongPlaying = 0;
             MyService.setListSongPlaying(listPlaylist);
             clickStartService(getContext());
@@ -145,6 +165,20 @@ public class Fragment_Playlist_Screen extends Fragment implements OnItemListener
                 Data_local_Manager.setShuffleTrack(false);
                 imgShuffle.setImageResource(R.drawable.ic_shuffle_none);
             }
+        }
+    }
+    private void showProgressDialog(){
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Đang tải...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+    private void registerReceiver() {
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(MessageReciever, new IntentFilter("DismissDialog"));
+    }
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
         }
     }
 }

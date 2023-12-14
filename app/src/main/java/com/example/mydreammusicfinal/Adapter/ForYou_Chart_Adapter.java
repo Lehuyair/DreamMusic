@@ -3,9 +3,12 @@ package com.example.mydreammusicfinal.Adapter;
 import static com.example.mydreammusicfinal.Constance.Constance.ACTION_START;
 import static com.example.mydreammusicfinal.Constance.Constance.KEY_ACTION_STATUS_SERVICE;
 import static com.example.mydreammusicfinal.MediaPlayerManager.MyService.positionSongPlaying;
-
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,7 +32,16 @@ public class ForYou_Chart_Adapter extends RecyclerView.Adapter<ForYou_Chart_Adap
     Context context;
     ArrayList<String> list;
     Child_Chart_ItemAdapter adapter;
-
+    ProgressDialog progressDialog;
+    private BroadcastReceiver MessageReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+            if(message != null){
+                dismissProgressDialog();
+            }
+        }
+    };
     public ForYou_Chart_Adapter(Context context, ArrayList<String> list) {
         this.context = context;
         this.list = list;
@@ -43,6 +56,7 @@ public class ForYou_Chart_Adapter extends RecyclerView.Adapter<ForYou_Chart_Adap
 
     @Override
     public void onBindViewHolder(@NonNull ForYou_ChartHolder holder, int position) {
+        registerReceiver();
         String name = list.get(position);
         holder.tv_NameChart.setText(name);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
@@ -92,6 +106,7 @@ public void fillterByGenre(String genre,RecyclerView rv, ImageView img){
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    showProgressDialog();
                     positionSongPlaying = 0;
                     MyService.setListSongPlaying(list);
                     clickStartService();
@@ -102,4 +117,19 @@ public void fillterByGenre(String genre,RecyclerView rv, ImageView img){
     task.execute();
 
 }
+    private void showProgressDialog(){
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Đang tải...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+    private void registerReceiver() {
+        LocalBroadcastManager.getInstance(context).registerReceiver(MessageReciever, new IntentFilter("DismissDialog"));
+    }
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
 }

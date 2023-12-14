@@ -45,26 +45,12 @@ public class MyApplication extends Application {
         intent.putExtra(KEY_ACTION_STATUS_SERVICE,ACTION_START);
         context.startService(intent);
     }
-    public static class NetworkChangeReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (isNetworkAvailable(context)) {
-                Toast.makeText(context, "Đã kết nối internet", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, "Không có kết nối internet", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        private boolean isNetworkAvailable(Context context) {
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (connectivityManager != null) {
-                NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-                return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-            }
-            return false;
-        }
+    public static  void sendActionToService(Context context,int Action, int songPosition){
+        Intent intent = new Intent(context, MyService.class);
+        intent.putExtra(KEY_ACTION_STATUS_SERVICE,Action);
+        context.startService(intent);
     }
+
     public static Boolean  checkUser(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null){

@@ -2,6 +2,7 @@ package com.example.mydreammusicfinal.MediaPlayerManager;
 
 
 
+import static com.example.mydreammusicfinal.AUD.AUD.AddCountListening;
 import static com.example.mydreammusicfinal.Constance.Constance.ACTION_CLEAR;
 import static com.example.mydreammusicfinal.Constance.Constance.ACTION_NEXT;
 import static com.example.mydreammusicfinal.Constance.Constance.ACTION_PAUSE;
@@ -23,10 +24,8 @@ import static com.example.mydreammusicfinal.MyApplication.Channel_ID_Name;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -35,7 +34,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,7 +44,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.mydreammusicfinal.Activity.MainActivity;
-import com.example.mydreammusicfinal.Constance.Constance;
+import com.example.mydreammusicfinal.Interface.OnItemListener;
 import com.example.mydreammusicfinal.Local_Data.Data_local_Manager;
 import com.example.mydreammusicfinal.R;
 import com.example.mydreammusicfinal.model.Songs;
@@ -59,12 +57,11 @@ public class MyService extends Service {
 
     public static ArrayList<Songs> listSongPlaying;
     public static int positionSongPlaying = 0;
-    private boolean isPlaying;
+    public static boolean isPlaying;
     public static MediaPlayer mediaPlayer;
     int progress;
     int maxSeekbar;
     Handler handler = new Handler();
-    MainActivity m = new MainActivity();
 
 
     public static void setListSongPlaying(ArrayList<Songs> list){
@@ -93,7 +90,7 @@ public class MyService extends Service {
                             if(actionMusic == ACTION_START){
                                 startMusic();
                             }
-                            sendNotification(mediaPlayer.getDuration(),mediaPlayer.getCurrentPosition());
+                            sendNotification();
                             handlerActionMusic(actionMusic);
                         }
                     } catch (IOException e) {
@@ -127,14 +124,14 @@ public class MyService extends Service {
         mediaPlayer.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
             @Override
             public void onSeekComplete(MediaPlayer mp) {
-                sendNotification(mediaPlayer.getDuration(),mediaPlayer.getCurrentPosition());
+                sendNotification();
             }
         });
         sendActionToActivity(ACTION_START);
         sendActionToMediaScreen(ACTION_START);
         updateSeekBar.run();
         setCompeleteSong();
-
+        sendMessageActionComplete();
     }
     public void handlerActionMusic(int Action) throws IOException {
         switch (Action){
@@ -164,7 +161,7 @@ public class MyService extends Service {
         if(mediaPlayer != null && isPlaying == false){
             mediaPlayer.start();
             isPlaying = true;
-            sendNotification(mediaPlayer.getDuration(),mediaPlayer.getCurrentPosition());
+            sendNotification();
             sendActionToActivity(ACTION_RESUME);
             sendActionToMediaScreen(ACTION_RESUME);
             updateSeekBar.run();
@@ -177,7 +174,7 @@ public class MyService extends Service {
         if(mediaPlayer != null && isPlaying == true){
             mediaPlayer.pause();
             isPlaying = false;
-            sendNotification(mediaPlayer.getDuration(),mediaPlayer.getCurrentPosition());
+            sendNotification();
             sendActionToActivity(ACTION_PAUSE);
             sendActionToMediaScreen(ACTION_PAUSE);
         }
@@ -198,9 +195,11 @@ public class MyService extends Service {
         startMusic();
         sendActionToActivity(ACTION_START);
         sendActionToMediaScreen(ACTION_START);
-        sendNotification(mediaPlayer.getDuration(),mediaPlayer.getCurrentPosition());
+        sendNotification();
         updateSeekBar.run();
         setCompeleteSong();
+        sendMessageActionComplete();
+
     }
 
     private void nextSong() throws IOException {
@@ -218,32 +217,28 @@ public class MyService extends Service {
         }
 
         startMusic();
-        sendNotification(mediaPlayer.getDuration(),mediaPlayer.getCurrentPosition());
+        sendNotification();
         sendActionToActivity(ACTION_START);
         sendActionToMediaScreen(ACTION_START);
         updateSeekBar.run();
         setCompeleteSong();
+        sendMessageActionComplete();
 
     }
     public void setCompeleteSong(){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
-            public void run() {
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        try {
-                            handleMusicCompletion();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
+            public void onCompletion(MediaPlayer mp) {
+                try {
+                    handleMusicCompletion();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        },1000);
+        });
     }
     public void handleMusicCompletion() throws IOException {
+        AddCountListening(listSongPlaying.get(positionSongPlaying).getSongKey());
         if(Data_local_Manager.getRepeatTrack()){
             startMusic();
         }else{
@@ -261,31 +256,23 @@ public class MyService extends Service {
     }
 
 
-
-    private void sendNotification(int progress, int max) {
+    private void sendNotification() {
+        final Notification[] notification = new Notification[1];
         Songs s1 = listSongPlaying.get(positionSongPlaying);
+
         MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(this,"Tag");
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, Channel_ID_Name)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setSubText("Dream Music")
                 .setContentTitle(s1.getSongName())
+                .setContentIntent(gotoMediaScreenIntent(this,s1))
                 .setSubText(s1.getAritstName())
                 .setContentText(s1.getAritstName())
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                         .setShowActionsInCompactView(0,1,2)
-                        .setMediaSession(mediaSessionCompat.getSessionToken()));
-        Glide.with(getApplicationContext())
-                .asBitmap()
-                .load(s1.getImageURL())
-                .into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        notificationBuilder.setLargeIcon(resource);
-                    }
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                    }
-                });
+                        .setMediaSession(mediaSessionCompat.getSessionToken()))
+                        .setProgress(40000,7000,false);
+
         if(isPlaying){
                     notificationBuilder.addAction(R.drawable.ic_previous,"Previous",getPendingIntent(this,ACTION_PREVIOUS))
                     .addAction(R.drawable.ic_pause,"Play",getPendingIntent(this,ACTION_PAUSE))
@@ -295,11 +282,22 @@ public class MyService extends Service {
                     .addAction(R.drawable.ic_play,"Play",getPendingIntent(this,ACTION_RESUME))
                     .addAction(R.drawable.ic_next,"Next",getPendingIntent(this,ACTION_NEXT));
         }
-        notificationBuilder.setProgress(max,progress,false);
-        Notification notification = notificationBuilder.build();
-        startForeground(1,notification);
-    }
 
+        Glide.with(getApplicationContext())
+                .asBitmap()
+                .load(s1.getImageURL())
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        notificationBuilder.setLargeIcon(resource);
+                        notification[0] = notificationBuilder.build();
+                        startForeground(1, notification[0]);
+                    }
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                    }
+                });
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -307,6 +305,15 @@ public class MyService extends Service {
             mediaPlayer.release();
             mediaPlayer = null;
         }
+    }
+    private PendingIntent gotoMediaScreenIntent(Context context, Songs songs){
+        Intent intent = new Intent(this, MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Song_Data", songs);
+        bundle.putInt("Action_Song", ACTION_START);
+        bundle.putBoolean("mediaStatus", isPlaying);
+        intent.putExtras(bundle);
+        return  PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
     }
     private PendingIntent getPendingIntent(Context context, int Action){
         Intent intent = new Intent(this, myReceiver.class);
@@ -331,6 +338,11 @@ public class MyService extends Service {
         intent.putExtras(bundle);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
+    public void sendMessageActionComplete(){
+        Intent intent = new Intent("DismissDialog");
+        intent.putExtra("message", "Success");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
     private Runnable updateSeekBar = new Runnable() {
         @Override
         public void run() {
@@ -342,11 +354,13 @@ public class MyService extends Service {
             handler.postDelayed(this, 1000);
         }
     };
+
     private void sendSeekBarUpdateToActivity(int progress, int maxSeekBar) {
         Intent intent = new Intent(KEY_SEEKBAR_UPDATE);
         intent.putExtra(KEY_PROGRESS_MEDIA, progress);
         intent.putExtra(KEY_MAXSEEKBAR, maxSeekBar);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
+
 
 }
